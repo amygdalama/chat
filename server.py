@@ -11,7 +11,10 @@ if __name__ == '__main__':
     s.listen(backlog)
     while True:
         client, address = s.accept()
-        data = client.recv(size)
-        if data:
-            client.send(data)
-        client.close()
+        while True:
+            data = client.recv(size)
+            if data == 'logout':
+                client.send('logged out')
+                client.close()
+            elif data:
+                client.send('logged in')
